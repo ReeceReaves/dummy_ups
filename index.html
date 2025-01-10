@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Package Tracker - Search</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <style>
+        body {
+            font-family: 'Helvetica', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f3f3f3;
+        }
+
+        h2 {
+            background: linear-gradient(90deg, #3e3a36 0%, #f1c232 100%);
+            color: white;
+            padding: 30px;
+            margin: 0;
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h2 img {
+            width: 50px; /* Placeholder logo size */
+            margin-right: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .search-box {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 3px solid #3e3a36;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .search-box input {
+            width: 80%;
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 2px solid #3e3a36;
+            margin-bottom: 15px;
+        }
+
+        .search-box button {
+            width: 85%;
+            padding: 10px;
+            font-size: 1.2rem;
+            color: white;
+            background-color: #3e3a36;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-box button:hover {
+            background-color: #f1c232;
+        }
+
+        .search-result {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 3px solid #3e3a36;
+            margin-top: 20px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .search-result h1 {
+            text-align: center;
+            color: #3e3a36;
+        }
+
+        .search-result p {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .contact-info {
+            background-color: #f1c232;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>
+        <img width="48" height="48" src="https://img.icons8.com/fluency/48/ups.png" alt="ups"/>
+        Package Tracker - Search
+    </h2>
+
+    <div class="container">
+        <div class="search-box">
+            <h3>Enter Your Tracking Number</h3>
+            <input type="text" id="tracking-number" placeholder="Enter tracking number">
+            <button id="search-button">Search</button>
+        </div>
+
+        <div id="search-result" class="search-result" style="display: none;">
+            <h1>Tracking Details</h1>
+            <p>Tracking Number: <strong id="result-tracking-id"></strong></p>
+            <p>Status: <span id="result-status"></span></p>
+            <h3>Shipper Details</h3>
+            <ul>
+                <li><strong>Name: </strong><span id="result-shipper-name"></span></li>
+                <li><strong>Address: </strong><span id="result-shipper-address"></span></li>
+                <li><strong>Email: </strong><span id="result-shipper-email"></span></li>
+                <li><strong>Phone: </strong><span id="result-shipper-phone"></span></li>
+            </ul>
+
+            <h3>Receiver Details</h3>
+            <ul>
+                <li><strong>Name: </strong><span id="result-receiver-name"></span></li>
+                <li><strong>Address: </strong><span id="result-receiver-address"></span></li>
+                <li><strong>Email: </strong><span id="result-receiver-email"></span></li>
+                <li><strong>Phone: </strong><span id="result-receiver-phone"></span></li>
+            </ul>
+
+            <h3>Expected Delivery Date</h3>
+            <p id="result-delivery-date"></p>
+        </div>
+
+        <div class="contact-info">
+            <p>If you have any questions, contact customer service at <strong>1-800-123-4567</strong> or visit our <a href="#">Support Page</a>.</p>
+        </div>
+    </div>
+
+    <script>
+        // Dummy tracking data for the search
+        const trackingData = {
+            "1Z25011077256411": {
+                status: "Package Created (Not Yet Shipped)",
+                shipper: {
+                    name: "Mark Klein I",
+                    address: "781 Twila Street, Montrose, IA 52639",
+                    email: "mark.klein.i@hotmail.com",
+                    phone: "+1260-824-6115"
+                },
+                receiver: {
+                    name: "Claudia Elizabeth",
+                    address: "7A Wesley St, St. Helier, Jersey JE2 4SN, UK",
+                    email: "eclaudia4@icloud.com",
+                    phone: "+447-700-336-038"
+                },
+                expectedDelivery: "4th October, 2024"
+            }
+        };
+
+        document.getElementById('search-button').addEventListener('click', function () {
+            const trackingNumber = document.getElementById('tracking-number').value.trim().toUpperCase();
+
+            // Clear previous results
+            document.getElementById('search-result').style.display = 'none';
+
+            if (trackingData[trackingNumber]) {
+                // Redirect to item_tracking.html with tracking number in the URL
+                window.location.href = `item_tracking.html?trackingNumber=${trackingNumber}`;
+            } else {
+                alert('Tracking number not found. Please try again.');
+            }
+        });
+    </script>
+
+</body>
+
+</html>
