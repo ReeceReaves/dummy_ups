@@ -20,7 +20,8 @@
         }
 
         h2 {
-            background: linear-gradient(90deg, #3e3a36 0%, #f1c232 100%); /* UPS brown and gold gradient */
+            background: linear-gradient(90deg, #3e3a36 0%, #f1c232 100%);
+            /* UPS brown and gold gradient */
             color: white;
             padding: 30px;
             margin: 0;
@@ -35,7 +36,8 @@
         }
 
         h2 img {
-            width: 50px; /* Placeholder logo size */
+            width: 50px;
+            /* Placeholder logo size */
             margin-right: 20px;
         }
 
@@ -49,8 +51,10 @@
 
         #map {
             flex: 1;
-            height: 60vh; /* Adjusted for responsiveness */
-            width: 80%;  /* Adjusted for responsiveness */
+            height: 60vh;
+            /* Adjusted for responsiveness */
+            width: 80%;
+            /* Adjusted for responsiveness */
             margin: 10px;
             border-radius: 10px;
             border: 3px solid #3e3a36;
@@ -98,7 +102,8 @@
         }
 
         .delivery-status {
-            background-color: #d8a800; /* Yellow for package just created */
+            background-color: #d8a800;
+            /* Yellow for package just created */
             color: #fff;
             padding: 15px;
             text-align: center;
@@ -118,8 +123,10 @@
 
         .progress-bar-inner {
             height: 100%;
-            background-color: #d8a800; /* Yellow for package just created */
-            width: 10%; /* Update this based on the package status */
+            background-color: #d8a800;
+            /* Yellow for package just created */
+            width: 10%;
+            /* Update this based on the package status */
             border-radius: 5px;
         }
 
@@ -150,7 +157,8 @@
         }
 
         .contact-info {
-            background-color: #f1c232; /* UPS gold color */
+            background-color: #f1c232;
+            /* UPS gold color */
             padding: 15px;
             text-align: center;
             font-weight: bold;
@@ -162,7 +170,7 @@
 
 <body>
     <h2>
-        <img width="48" height="48" src="https://img.icons8.com/fluency/48/ups.png" alt="ups"/>
+        <img width="48" height="48" src="https://img.icons8.com/fluency/48/ups.png" alt="ups" />
         Tracker
     </h2>
 
@@ -171,16 +179,17 @@
 
         <div class="tracking-details">
             <h1>Tracking Details</h1>
-            <p>Tracking Number: <strong>1Z25011077256411</strong></p>
+            <p>Tracking Number: <strong>TRK43128QZR</strong></p>
             <p>Status: Package Created (Not Yet Shipped)</p>
 
             <h3>EXPECTED DELIVERY</h3>
             <ul>
                 <li>
-                    <strong>Express Delivery: </strong>
-                    <p>4th October, 2024</p>
+                    <strong>Standard Delivery: </strong>
+                    <p>24th January, 2025</p> <!-- Updated based on business days -->
                 </li>
             </ul>
+
 
             <h3>Shipper Details</h3>
             <ul>
@@ -228,7 +237,8 @@
     <div class="delivery-status">Item Status: Package Created (Not Yet Shipped)</div>
 
     <div class="contact-info">
-        <p>If you have any questions, contact customer service at <strong>1-800-123-4567</strong> or visit our <a href="#">Support Page</a>.</p>
+        <p>If you have any questions, contact customer service at <strong>1-800-123-4567</strong> or visit our <a
+                href="#">Support Page</a>.</p>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -271,7 +281,7 @@
             lineOptions: {
                 styles: [{ color: '#d8a800', opacity: 0.7, weight: 6 }]  // Yellow color for the not yet shipped route
             },
-            createMarker: function() { return null; }  // Disable default markers
+            createMarker: function () { return null; }  // Disable default markers
         }).addTo(map);
 
         map.fitBounds(bounds);
